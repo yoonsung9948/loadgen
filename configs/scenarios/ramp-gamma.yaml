@@ -7,7 +7,7 @@ request:
     Accept: text/html
 
 load:
-  pattern: "burst"
+  pattern: "ramp"
   duration_seconds: 15
   requests_per_second: 10.0
   slope: 0.25
