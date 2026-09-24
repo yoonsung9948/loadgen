@@ -1,0 +1,17 @@
+# Local HTTP smoke test. Start a server in another terminal:
+# python3 -m http.server 8000 --bind 127.0.0.1
+# This checks the load generator; it does not benchmark model inference.
+target:
+  url: http://127.0.0.1:8000/
+  method: GET
+
+request:
+  headers:
+    Accept: text/html
+
+load:
+  pattern: constant
+  duration_seconds: 10
+  requests_per_second: 2
+  max_in_flight: 10
+  timeout: 5  # Per-request deadline in seconds.
