@@ -60,6 +60,8 @@ def build_summary(result: RunResult) -> RunSummary:
 
     return RunSummary(
         run_id=result.run_id,
+        status=result.status,
+        scheduled_duration_seconds=result.scheduled_duration_seconds,
         elapsed_seconds=result.elapsed_seconds,
         recorded_arrivals=len(records),
         started=started,
@@ -106,6 +108,8 @@ def print_summary(
     print("=" * width, file=writer)
 
     row("Run ID", summary.run_id)
+    row("Status", summary.status)
+    row("Configured load window", number(summary.scheduled_duration_seconds, " s"))
     row("Elapsed (including drain)", number(summary.elapsed_seconds, " s"))
 
     section("REQUESTS")

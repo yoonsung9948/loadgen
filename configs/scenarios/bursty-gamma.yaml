@@ -1,0 +1,21 @@
+target:
+  url: "http://127.0.0.1:8000/"
+  method: "GET"
+
+request:
+  headers:
+    Accept: "text/html"
+
+load:
+  pattern: "burst"
+  duration_seconds: 60
+  requests_per_second: 10.0  # Background rate
+  peak_rps: 100.0           # Total rate at the surge's center
+  center_seconds: 30.0      # Peak occurs 30 seconds into the run
+  width_seconds: 3.0        # Gaussian standard deviation
+  max_in_flight: 200
+  timeout: 10.0             # Per-request deadline in seconds
+
+arrival_distribution:
+  shape: 0.7               # Below 1 produces more clustered arrivals
+  seed: 42                 # Reproducible schedule

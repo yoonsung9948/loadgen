@@ -1,3 +1,4 @@
+import asyncio
 from dataclasses import dataclass, field
 from typing import Literal
 
@@ -20,6 +21,16 @@ class RunResult:
     run_id: str
     elapsed_seconds: float
     requests: list[RequestResult] = field(default_factory=list)
+    scheduled_duration_seconds: float | None = None
+    status: Literal["completed", "cancelled", "failed"] = "completed"
+
+
+class RunCancelled(asyncio.CancelledError):
+    """Cancellation carrying the records collected before shutdown."""
+
+    def __init__(self, result: RunResult) -> None:
+        super().__init__("Load run cancelled")
+        self.result = result
 
 
 @dataclass
@@ -49,3 +60,5 @@ class RunSummary:
     latency: TimingSummary
     scheduler_lag: TimingSummary
     failure_reasons: dict[str, int]
+    scheduled_duration_seconds: float | None = None
+    status: Literal["completed", "cancelled", "failed"] = "completed"

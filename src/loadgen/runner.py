@@ -5,5 +5,5 @@ from .engine import run
 
 async def run_scenario(config: Config) -> RunResult:
     async with HTTPClient(config.target, config.request) as client:
-        result = await run(client, config.load)
+        result = await run(client, config.load, config.arrival_distribution)
         return result

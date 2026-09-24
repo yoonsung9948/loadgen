@@ -16,7 +16,7 @@ class RequestConfig(BaseModel):
 class BaseLoadConfig(BaseModel):
     model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
 
-    timeout: int
+    timeout: float = Field(gt=0)
     duration_seconds: float = Field(gt=0)
     max_in_flight: PositiveInt
 
@@ -39,9 +39,14 @@ class BurstConfig(BaseLoadConfig):
     center_seconds: float = Field(ge=0)
     width_seconds: float = Field(gt=0)
 
+class GammaConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
+
+    shape: float = Field(gt=0)
+    seed: int | None = Field(default=None, ge=0)
 
 LoadConfig = Annotated[
-    ConstantConfig | RampConfig | BurstConfig,
+    ConstantConfig | RampConfig | BurstConfig ,
     Field(discriminator="pattern"),
 ]
 
@@ -49,6 +54,7 @@ class Config(BaseModel):
     target: TargetConfig
     load: LoadConfig
     request: RequestConfig
+    arrival_distribution: GammaConfig | None = None
 
 
 def load_yaml(path: str | Path) -> Config:

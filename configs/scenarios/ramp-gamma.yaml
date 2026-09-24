@@ -1,0 +1,19 @@
+target:
+  url: "http://127.0.0.1:8000/"
+  method: "GET"
+
+request:
+  headers:
+    Accept: text/html
+
+load:
+  pattern: "burst"
+  duration_seconds: 15
+  requests_per_second: 10.0
+  slope: 0.25
+  max_in_flight: 50
+  timeout: 30
+
+arrival_distribution:
+  shape: 2.0
+  seed: 42
